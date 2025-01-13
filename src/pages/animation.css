@@ -1,0 +1,321 @@
+ /* @keyframes slideInFromLeft {
+    from {
+      transform: translateX(-80%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }  */
+
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .container {
+    position: relative;
+    height: 550px;
+  }
+  .image {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  .textContainer {
+    position: absolute;
+    top: 50%;
+    right: 40vh;
+    transform: translate(50%, -50%);
+    text-align: center;
+  }
+  .button {
+    padding: 15px 25px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+  .servicecontent {
+    padding: 10px;
+    margin-top: 20px;
+  }
+  .titles {
+    margin: 0.5em 0;
+    font-family: 'Dancing Script';
+    font-size: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+    animation: slide-up 1.5s ease-out forwards;
+  }
+  .aboutContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 20px; */
+    position: relative;
+    margin: 50px auto;
+    max-width: 1200px;
+  }
+  .aboutText {
+    text-align: center;
+    flex: 0 0 50%;
+    padding: 20px;
+  }
+  .aboutImage {
+    width: 100%;
+    height: 350px;
+    border-radius: 10px;
+  }  
+  .aboutContent {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  
+  .imageContainer {
+    /* flex: 1; */
+    flex: 0% 50% 0%;
+    margin-right: 40px;
+    opacity: 0; /* Start hidden */
+    transform: translateX(-100%); /* Start off-screen */
+    }  
+    .tstmcontainer {
+      margin-left: 100px;
+      margin-right: 100px;
+      margin-top: 150px;
+      position: relative;
+      height: 50vh;
+      overflow: hidden;
+      /* backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.85))', */
+    }
+    
+    .tstmimage {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    
+    .gradientOverlay {
+      position: absolute;
+      /* top: 0, */
+      /* left: 0, */
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.85);
+      z-index: 2;
+    }
+    
+    .tstmContent {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      z-index: 3;
+      width: 80%;
+    }
+    
+    .tmttextContainer {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 3;
+    }
+    
+    .tmttext {
+      font-family: 'Dancing Script';
+      font-size: 50px;
+      color: #FF8F00;
+    }
+      
+    .carouselContent {
+      flex: 1;
+      text-align: center;
+      color: black;
+      font-size: large;
+      font-family: 'Satisfy';
+    }
+    .contactContainer {
+      display: flex;
+      text-align: center;
+      margin-right: 5%;
+      margin-left: 5%;
+    }
+    
+    .contactDetails {
+      flex: 1;
+    }
+    
+    .address {
+      flex: 1;
+    }
+    
+    .businessHours {
+      flex: 1;
+    }
+    .contactForm {
+      margin-top: 50px;
+      text-align: center;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+    
+    .formRow {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    
+    .input {
+      flex: 1;
+      padding: 20px;
+      margin-right: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    
+    .textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    
+    .submitButton {
+      padding: 15px 25px;
+      background-color: orange;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    .footerContainer {
+      display: flex;
+      text-align: center;
+      background-color: black;
+      color: white;
+      opacity: 0.8;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    
+    .modalBox {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      background-color: #fff; /* Replace 'background.paper' with a hex color code */
+      border: 2px solid #000;
+      box-shadow: 24px;
+      padding: 16px; /* 'p: 4' translates to padding of 16px (4 * 4px) */
+      text-align: center;
+    }
+    .logo {
+      color: white;
+      font-size: 22px;
+      transition: color 0.3s;
+    }
+    
+    .logo:hover {
+      color: orange;
+    }
+            
+    
+
+
+
+  .videoContainer {
+    display: flex;
+    justify-content: center;
+  }
+  .videoContent {
+    border-radius: 10px;
+    margin: 20px;
+    width: 250px;
+    height: 400px;
+  }
+  .text {
+    font-family: 'Dancing Script';
+    color: white;
+    font-size: 50px;
+    transition: all 0.5s ease-in;
+    animation: slide-up 1.5s ease-out forwards;
+    opacity: 0;
+  }
+  .contact-text {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.5s ease-in;
+    animation: slide-up 1.5s ease-out forwards;
+  }
+  .contactText {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .contactText:hover {
+    cursor: pointer;
+    color: orange;
+  }
+  .text-container {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    text-align: center;
+    right: 40vh;
+  }
+  
+  .button {
+    padding: 15px 25px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+  
+  
