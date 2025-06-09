@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../styles/services.css';
 
 const ServiceCard = ({ service, onEnquireClick }) => {
   const { title, description, icon, image } = service;
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleCardFlip = () => {
+    setIsFlipped(!isFlipped);
+  };
+
+  const handleEnquireClick = (e) => {
+    e.stopPropagation(); // Prevent event bubbling
+    if (onEnquireClick) {
+      onEnquireClick();
+    }
+  };
 
   return (
-    <div className="service-card">
+    <div 
+      className={`service-card ${isFlipped ? 'flipped' : ''}`} 
+      onClick={handleCardFlip}
+    >
       <div className="service-card-inner">
         <div className="service-card-front">
           <div className="service-image-container">
@@ -20,7 +35,13 @@ const ServiceCard = ({ service, onEnquireClick }) => {
             <div className="service-icon-back">{icon}</div>
             <h3 className="service-title">{title}</h3>
             <p className="service-description">{description}</p>
-            <button className="service-btn" onClick={onEnquireClick}>Enquire Now</button>
+            <button 
+              className="service-btn" 
+              onClick={handleEnquireClick}
+              style={{ cursor: 'pointer' }}
+            >
+              Enquire Now
+            </button>
           </div>
         </div>
       </div>

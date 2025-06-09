@@ -17,6 +17,7 @@
   perspective: 1000px;
   border-radius: var(--radius-lg);
   overflow: hidden;
+  cursor: pointer; /* Add cursor pointer to indicate card is interactive */
 }
 
 .service-card-inner {
@@ -30,7 +31,8 @@
   border-radius: var(--radius-lg);
 }
 
-.service-card:hover .service-card-inner {
+.service-card:hover .service-card-inner,
+.service-card.flipped .service-card-inner {
   transform: rotateY(180deg);
 }
 
@@ -107,6 +109,7 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  z-index: 10; /* Ensure back side has higher z-index */
 }
 
 .service-content {
@@ -114,6 +117,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .service-icon-back {
@@ -134,8 +138,11 @@
   padding: 0.75rem 1.5rem;
   border-radius: 50px;
   font-weight: 600;
-  cursor: pointer;
+  cursor: pointer !important; /* Ensure cursor is pointer */
   transition: all 0.3s ease;
+  position: relative; /* Ensure button is positioned properly */
+  z-index: 20; /* Ensure button has highest z-index */
+  pointer-events: auto !important; /* Ensure button receives click events */
 }
 
 .service-btn:hover {
