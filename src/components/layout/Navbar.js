@@ -9,12 +9,21 @@ const Navbar = ({ onEnquireClick }) => {
 
   // Toggle mobile menu
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    const newIsOpen = !isOpen;
+    setIsOpen(newIsOpen);
+    
+    // Toggle body scroll lock
+    if (newIsOpen) {
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+    }
   };
 
   // Close mobile menu when clicking on a link
   const closeMenu = () => {
     setIsOpen(false);
+    document.body.classList.remove('menu-open');
   };
 
   // Handle scroll event to change navbar style
@@ -30,6 +39,8 @@ const Navbar = ({ onEnquireClick }) => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      // Ensure menu-open class is removed when component unmounts
+      document.body.classList.remove('menu-open');
     };
   }, []);
 
