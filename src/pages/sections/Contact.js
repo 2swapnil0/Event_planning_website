@@ -74,7 +74,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="contact-section section">
+    <section id="contact" className="contact-section section" itemScope itemType="https://schema.org/ContactPage">
       <div className="container">
         <h2 className="section-title">Get In Touch</h2>
         <p className="section-subtitle">
@@ -82,16 +82,23 @@ const Contact = () => {
         </p>
         
         <div className="contact-container">
-          <div className="contact-info">
+          <div className="contact-info" itemScope itemType="https://schema.org/LocalBusiness">
+            <meta itemProp="name" content="Vidya Events" />
             <h3 className="contact-info-title">Contact Information</h3>
             
             <div className="contact-info-item">
               <div className="contact-info-icon">
                 <FaMapMarkerAlt />
               </div>
-              <div className="contact-info-content">
+              <div className="contact-info-content" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
                 <h4>Our Location</h4>
-                <p>Bhagwan Niwas House No 1427 Room No 203, Near Shiv Sena Shaka, Shiravane Nerul Navi Mumbai, Panvel City, Navi Mumbai, Maharashtra 400706</p>
+                <p>
+                  <span itemProp="streetAddress">Bhagwan Niwas House No 1427 Room No 203, Near Shiv Sena Shaka, Shiravane</span>, 
+                  <span itemProp="addressLocality">Nerul Navi Mumbai</span>, 
+                  <span itemProp="addressRegion">Maharashtra</span> 
+                  <span itemProp="postalCode">400706</span>, 
+                  <span itemProp="addressCountry">India</span>
+                </p>
               </div>
             </div>
             
@@ -101,7 +108,7 @@ const Contact = () => {
               </div>
               <div className="contact-info-content">
                 <h4>Phone Number</h4>
-                <p><a href="tel:+918879741987">+91-8879741987</a></p>
+                <p><a href="tel:+918879741987" itemProp="telephone">+91-8879741987</a></p>
               </div>
             </div>
             
@@ -111,7 +118,7 @@ const Contact = () => {
               </div>
               <div className="contact-info-content">
                 <h4>Email Address</h4>
-                <p><a href="mailto:info.vidyaevents@gmail.com">info.vidyaevents@gmail.com</a></p>
+                <p><a href="mailto:info.vidyaevents@gmail.com" itemProp="email">info.vidyaevents@gmail.com</a></p>
               </div>
             </div>
             
@@ -121,21 +128,21 @@ const Contact = () => {
               </div>
               <div className="contact-info-content">
                 <h4>Business Hours</h4>
-                <p>Monday - Sunday: Open 24 hours</p>
+                <p itemProp="openingHours" content="Mo-Su 00:00-24:00">Monday - Sunday: Open 24 hours</p>
               </div>
             </div>
             
             <div className="contact-social">
               <h4>Follow Us</h4>
               <div className="social-icons">
-                <a href="https://www.instagram.com/vidya_events?igsh=MXB4ZHFnbXcyNnNndg==" target="_blank" rel="noopener noreferrer" className="social-icon">
-                  <FaInstagram />
+                <a href="https://www.instagram.com/vidya_events?igsh=MXB4ZHFnbXcyNnNndg==" target="_blank" rel="noopener noreferrer" className="social-icon" itemProp="sameAs">
+                  <FaInstagram aria-label="Instagram" />
                 </a>
-                <a href="https://www.whatsapp.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-                  <FaWhatsapp />
+                <a href="https://wa.me/918879741987" target="_blank" rel="noopener noreferrer" className="social-icon" itemProp="sameAs">
+                  <FaWhatsapp aria-label="WhatsApp" />
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" className="social-icon">
-                  <FaFacebookF />
+                <a href="https://www.facebook.com/vidyaevents" target="_blank" rel="noopener noreferrer" className="social-icon" itemProp="sameAs">
+                  <FaFacebookF aria-label="Facebook" />
                 </a>
               </div>
             </div>
@@ -143,6 +150,7 @@ const Contact = () => {
           
           <div className="contact-form-container">
             <h3 className="contact-form-title">Send Us a Message</h3>
+            <meta itemProp="potentialAction" itemScope itemType="https://schema.org/CommunicateAction" />
             
             {formStatus.submitted && (
               <div className={`form-message ${formStatus.success ? 'success' : 'error'}`}>
@@ -150,7 +158,7 @@ const Contact = () => {
               </div>
             )}
             
-            <form className="contact-form" onSubmit={handleSubmit}>
+            <form className="contact-form" onSubmit={handleSubmit} aria-label="Contact form">
               <div className="form-group">
                 <label htmlFor="name" className="form-label">Your Name *</label>
                 <input
@@ -161,6 +169,8 @@ const Contact = () => {
                   onChange={handleChange}
                   className="form-control"
                   required
+                  aria-required="true"
+                  placeholder="Enter your full name"
                 />
               </div>
               
@@ -175,6 +185,8 @@ const Contact = () => {
                     onChange={handleChange}
                     className="form-control"
                     required
+                    aria-required="true"
+                    placeholder="Enter your email address"
                   />
                 </div>
                 
@@ -188,6 +200,10 @@ const Contact = () => {
                     onChange={handleChange}
                     className="form-control"
                     required
+                    aria-required="true"
+                    placeholder="Enter your phone number"
+                    pattern="[0-9]{10}"
+                    title="Please enter a valid 10-digit phone number"
                   />
                 </div>
               </div>
@@ -236,10 +252,12 @@ const Contact = () => {
                   className="form-control"
                   rows="5"
                   required
+                  aria-required="true"
+                  placeholder="Tell us about your event and requirements"
                 ></textarea>
               </div>
               
-              <button type="submit" className="btn btn-primary contact-submit-btn">
+              <button type="submit" className="btn btn-primary contact-submit-btn" aria-label="Submit contact form">
                 Send Message
               </button>
             </form>
