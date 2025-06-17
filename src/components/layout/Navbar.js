@@ -8,16 +8,26 @@ const Navbar = ({ onEnquireClick }) => {
   const [scrolled, setScrolled] = useState(false);
 
   // Toggle mobile menu
-  const toggleMenu = () => {
-    const newIsOpen = !isOpen;
-    setIsOpen(newIsOpen);
+  const toggleMenu = (e) => {
+    // Prevent any default behavior
+    if (e) e.preventDefault();
     
-    // Toggle body scroll lock
-    if (newIsOpen) {
-      document.body.classList.add('menu-open');
-    } else {
-      document.body.classList.remove('menu-open');
-    }
+    const newIsOpen = !isOpen;
+    console.log('Toggle menu:', newIsOpen);
+    
+    // Force a small delay to ensure DOM updates properly
+    setTimeout(() => {
+      setIsOpen(newIsOpen);
+      
+      // Toggle body scroll lock
+      if (newIsOpen) {
+        document.body.classList.add('menu-open');
+        console.log('Added menu-open class');
+      } else {
+        document.body.classList.remove('menu-open');
+        console.log('Removed menu-open class');
+      }
+    }, 10);
   };
 
   // Close mobile menu when clicking on a link
@@ -46,18 +56,29 @@ const Navbar = ({ onEnquireClick }) => {
 
   // Scroll to section function
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const navbarHeight = document.querySelector('.navbar').offsetHeight;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+    // First close the menu
+    closeMenu();
+    
+    // Then use setTimeout to ensure the menu is closed before scrolling
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const navbarHeight = document.querySelector('.navbar').offsetHeight;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - navbarHeight;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      closeMenu();
-    }
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Force scroll position after a short delay to ensure it works on all devices
+        setTimeout(() => {
+          const finalPosition = element.offsetTop - navbarHeight;
+          window.scrollTo(0, finalPosition);
+        }, 500);
+      }
+    }, 100);
   };
 
   // Handle enquiry button click
@@ -77,7 +98,14 @@ const Navbar = ({ onEnquireClick }) => {
           <span className="logo-text">Vidya Events</span>
         </Link>
 
-        <div className="menu-icon" onClick={toggleMenu}>
+        <div 
+          className="menu-icon" 
+          onClick={toggleMenu}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            toggleMenu();
+          }}
+        >
           <div className={`hamburger ${isOpen ? 'active' : ''}`}>
             <span className="hamburger-line"></span>
             <span className="hamburger-line"></span>
