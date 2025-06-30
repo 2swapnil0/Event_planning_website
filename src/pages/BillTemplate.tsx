@@ -3,7 +3,7 @@ import React from 'react';
 const BillTemplate: React.FC = () => {
   const billData = {
     client: {
-      name: 'Amit Sharma',
+      name: 'swapnil Sharma',
       email: 'amit.sharma@example.com',
       phone: '+91-9876543210',
     },
@@ -38,7 +38,22 @@ const BillTemplate: React.FC = () => {
 
   return (
     <div style={{ maxWidth: '800px', margin: '2rem auto', padding: '2rem', background: '#fff', boxShadow: '0 0 12px rgba(0,0,0,0.1)' }}>
-      <div
+      {/* Logo + Heading row */}
+<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+  <h1 style={{ margin: 0, color: '#FF8F00' }}>Event Invoice</h1>
+  <img
+    src="/logo.png"
+    alt="Company Logo"
+    style={{
+      height: '100px',
+      border: '1px solid #FF8F00',
+      borderRadius: '60px'
+    }}
+  />
+</div>
+
+{/* Company details block */}
+<div
   style={{
     border: '1px solid #eee',
     borderRadius: '8px',
@@ -48,7 +63,7 @@ const BillTemplate: React.FC = () => {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    gap: '10rem' // <-- This adds a 3rem gap between columns
+    gap: '10em'
   }}
 >
   {/* Left: Company Info */}
@@ -71,7 +86,7 @@ const BillTemplate: React.FC = () => {
     </div>
   </div>
   {/* Right: Dates */}
-  <div style={{ minWidth: 200 }}>
+  <div style={{ minWidth: 150 }}>
     <div style={{ color: '#FF8F00', fontWeight: 500, marginBottom: '0.5rem' }}>Invoice Details</div>
     <div style={{ color: '#2C3E50', marginBottom: '0.3rem' }}>
       <strong>Invoice Date:</strong>{' '}
@@ -83,6 +98,8 @@ const BillTemplate: React.FC = () => {
     </div>
   </div>
 </div>
+
+
 
 
       <div style={{ marginBottom: '1.5rem' }}>
