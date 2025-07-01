@@ -6,7 +6,7 @@ import BillForm from '../pages/BillForm.tsx';
 const BillPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [verified, setVerified] = useState(false);
-  const correctPassword = 'admin123'; // Set your password here
+  const correctPassword = 'Ilumsm8108'; // Set your password here
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
