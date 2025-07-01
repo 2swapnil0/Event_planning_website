@@ -81,45 +81,6 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
 
   return (
     <>
-      {/* Download PDF button */}
-      <button
-        onClick={handleDownloadPDF}
-        style={{
-          background: '#FF8F00',
-          color: '#fff',
-          border: 'none',
-          borderRadius: 6,
-          padding: '0.7em 1.6em',
-          fontWeight: 600,
-          fontSize: '1rem',
-          cursor: 'pointer',
-          margin: '20px 0 10px 0',
-          float: 'right'
-        }}
-      >
-        Download PDF
-      </button>
-      {onEdit && (
-  <button
-    onClick={onEdit}
-    style={{
-      background: '#2C3E50',
-      color: '#fff',
-      border: 'none',
-      borderRadius: 6,
-      padding: '0.7em 1.6em',
-      fontWeight: 600,
-      fontSize: '1rem',
-      cursor: 'pointer',
-      margin: '20px 12px 10px 0',
-      float: 'right'
-    }}
-  >
-    Edit
-  </button>
-)}
-
-
       <div
         ref={billRef}
         style={{
@@ -314,6 +275,42 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
         <p style={{ textAlign: 'center', marginTop: '1rem', color: '#666', fontSize: '1.01rem' }}>
           Thank you for choosing our services!
         </p>
+      </div>
+      
+      {/* Buttons below the preview */}
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', gap: '15px' }}>
+        {onEdit && (
+          <button
+            onClick={onEdit}
+            style={{
+              background: '#2C3E50',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 6,
+              padding: '0.7em 1.6em',
+              fontWeight: 600,
+              fontSize: '1rem',
+              cursor: 'pointer'
+            }}
+          >
+            Edit
+          </button>
+        )}
+        <button
+          onClick={handleDownloadPDF}
+          style={{
+            background: '#FF8F00',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 6,
+            padding: '0.7em 1.6em',
+            fontWeight: 600,
+            fontSize: '1rem',
+            cursor: 'pointer'
+          }}
+        >
+          Download PDF
+        </button>
       </div>
     </>
   );
