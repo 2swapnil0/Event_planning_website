@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import BillTemplate from '../pages/BillTemplate.tsx'; // Adjust path if needed
+// import BillTemplate from '../pages/BillTemplate.tsx'; // Adjust path if needed
+import BillForm from '../pages/BillForm.tsx';
+
 
 const BillPage: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -84,7 +86,7 @@ const BillPage: React.FC = () => {
           </form>
         </div>
       ) : (
-        <BillTemplate />
+        <BillForm />
       )}
     </div>
   );
