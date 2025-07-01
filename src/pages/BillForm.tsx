@@ -214,7 +214,7 @@ const BillForm: React.FC = () => {
           </button>
         </form>
       ) : (
-       <BillTemplate client={client} items={items} gstEnabled={gstEnabled} />
+       <BillTemplate client={client} items={items} gstEnabled={gstEnabled}  onEdit={() => setPreview(false)}/>
       )}
     </div>
   );

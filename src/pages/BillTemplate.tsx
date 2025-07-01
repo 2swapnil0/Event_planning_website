@@ -17,19 +17,23 @@ type BillTemplateProps = {
   items: BillItem[];
   gstPercent?: number;
   gstEnabled?: boolean;
+  onEdit?: () => void;
 };
 
 const BillTemplate: React.FC<BillTemplateProps> = ({
   client,
   items,
   gstPercent = 18,
-  gstEnabled = true
+  gstEnabled = true,
+  onEdit
 }) => {
   const subtotal = items.reduce((sum, item) => sum + item.qty * item.rate, 0);
   const gstAmount = gstEnabled ? subtotal * (gstPercent / 100) : 0;
   const grandTotal = subtotal + gstAmount;
 
   const billRef = useRef<HTMLDivElement>(null);
+  const filename = `Invoice_${(client.name || 'Client').replace(/\s+/g, '_').replace(/[^A-Za-z0-9_]/g, '').toUpperCase()}.pdf`;
+
 
   // Download PDF Handler
   const handleDownloadPDF = () => {
@@ -38,9 +42,10 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
         .from(billRef.current)
         .set({
           margin: 0,
-          filename: `Invoice_${client.name.replace(/\s+/g, '_')}.pdf`,
+          filename,
           html2canvas: { scale: 2, useCORS: true },
-          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         })
         .save();
     }
@@ -94,12 +99,32 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
       >
         Download PDF
       </button>
+      {onEdit && (
+  <button
+    onClick={onEdit}
+    style={{
+      background: '#2C3E50',
+      color: '#fff',
+      border: 'none',
+      borderRadius: 6,
+      padding: '0.7em 1.6em',
+      fontWeight: 600,
+      fontSize: '1rem',
+      cursor: 'pointer',
+      margin: '20px 12px 10px 0',
+      float: 'right'
+    }}
+  >
+    Edit
+  </button>
+)}
+
 
       <div
         ref={billRef}
         style={{
           width: '794px',
-          height: '1123px',
+          // height: '1123px',
           margin: '0 auto',
           padding: '1rem 1.5rem',
           background: '#fff',
@@ -169,7 +194,7 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
             </div>
             <div style={{ color: '#2C3E50' }}>
               <strong>Due Date:</strong>{' '}
-              {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB')}
+              {new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB')}
             </div>
           </div>
         </div>
