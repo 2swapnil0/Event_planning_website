@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BillTemplate from './BillTemplate.tsx';
 
 type BillClient = {
@@ -27,6 +27,14 @@ const BillForm: React.FC = () => {
 
   const [preview, setPreview] = useState(false);
   const [gstEnabled, setGstEnabled] = useState(true);
+  const [invoiceNumber, setInvoiceNumber] = useState(0);
+
+  const getNextInvoiceNumber = () => {
+    const lastInvoiceNumber = localStorage.getItem('lastInvoiceNumber');
+    const nextInvoiceNumber = lastInvoiceNumber ? parseInt(lastInvoiceNumber, 10) + 1 : 1;
+    localStorage.setItem('lastInvoiceNumber', String(nextInvoiceNumber));
+    return nextInvoiceNumber;
+  };
 
   // Handlers for form fields
   const handleClientChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -58,6 +66,8 @@ const BillForm: React.FC = () => {
         <form
           onSubmit={e => {
             e.preventDefault();
+            const newInvoiceNumber = getNextInvoiceNumber();
+            setInvoiceNumber(newInvoiceNumber);
             setPreview(true);
           }}
         >
@@ -214,7 +224,7 @@ const BillForm: React.FC = () => {
           </button>
         </form>
       ) : (
-       <BillTemplate client={client} items={items} gstEnabled={gstEnabled}  onEdit={() => setPreview(false)}/>
+       <BillTemplate client={client} items={items} gstEnabled={gstEnabled} invoiceNumber={invoiceNumber} onEdit={() => setPreview(false)}/>
       )}
     </div>
   );

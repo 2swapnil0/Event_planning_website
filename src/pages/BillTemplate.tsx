@@ -17,6 +17,7 @@ type BillTemplateProps = {
   items: BillItem[];
   gstPercent?: number;
   gstEnabled?: boolean;
+  invoiceNumber: number;
   onEdit?: () => void;
 };
 
@@ -25,6 +26,7 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
   items,
   gstPercent = 18,
   gstEnabled = true,
+  invoiceNumber,
   onEdit
 }) => {
   const subtotal = items.reduce((sum, item) => sum + item.qty * item.rate, 0);
@@ -150,12 +152,12 @@ const BillTemplate: React.FC<BillTemplateProps> = ({
           <div style={{ minWidth: 130, fontSize: '0.97rem' }}>
             <div style={{ color: '#FF8F00', fontWeight: 500, marginBottom: '0.4rem', fontSize: '1.01rem' }}>Invoice Details</div>
             <div style={{ color: '#2C3E50', marginBottom: '0.2rem' }}>
-              <strong>Invoice Date:</strong>{' '}
-              {new Date().toLocaleDateString('en-GB')}
+              <strong>Invoice Number:</strong>{' '}
+              {invoiceNumber}
             </div>
             <div style={{ color: '#2C3E50' }}>
-              <strong>Due Date:</strong>{' '}
-              {new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB')}
+              <strong>Invoice Date:</strong>{' '}
+              {new Date().toLocaleDateString('en-GB')}
             </div>
           </div>
         </div>
