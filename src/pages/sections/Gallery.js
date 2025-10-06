@@ -1,4 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import '../../styles/gallery.css';
 import { FaPlay, FaPause, FaExpand } from 'react-icons/fa';
 
@@ -9,16 +11,17 @@ import Video3 from '../../videos/video3.mp4';
 import Video4 from '../../videos/video4.mp4';
 import Video5 from '../../videos/video5.mp4';
 
-// Import images
+// Import placeholder images
 import birthdayImg from '../../images/birthday_services.jpg';
 import anniversaryImg from '../../images/anniversary.jpg';
 import babyShowerImg from '../../images/babyshower.JPG';
 import namingImg from '../../images/naming.jpg';
 import themeImg from '../../images/theme.jpg';
-import haldiImg from '../../images/haldi.jpg';
 
 const Gallery = () => {
   const [activeTab, setActiveTab] = useState('videos');
+  const [images, setImages] = useState([]);
+  const [loadingImages, setLoadingImages] = useState(true);
   const [activeVideo, setActiveVideo] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -33,15 +36,24 @@ const Gallery = () => {
     { id: 4, src: Video4, thumbnail: namingImg, title: 'Naming Ceremony' },
     { id: 5, src: Video5, thumbnail: themeImg, title: 'Theme Decoration' },
   ];
-  
-  const images = [
-    { id: 1, src: birthdayImg, title: 'Birthday Decoration' },
-    { id: 2, src: anniversaryImg, title: 'Anniversary Setup' },
-    { id: 3, src: babyShowerImg, title: 'Baby Shower Arrangement' },
-    { id: 4, src: namingImg, title: 'Naming Ceremony' },
-    { id: 5, src: themeImg, title: 'Theme Decoration' },
-    { id: 6, src: haldiImg, title: 'Haldi Ceremony' },
-  ];
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const folderId = '1Mq0PMh4lFO4986OntpeL3-Pn1fG0JWaS';
+        const webAppUrl = `https://script.google.com/macros/s/AKfycbxQOEuans93OpaClkx5hSE8gk4KdINO8ehvJD7182q3tKBVPZS3i3KDb9oQaIGOnoge/exec?folderId=${folderId}`;
+        const response = await axios.get(webAppUrl);
+        // Take the first 6 images for the homepage preview
+        setImages(response.data.slice(0, 6));
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      } finally {
+        setLoadingImages(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
   
   const handleVideoPlay = (index) => {
     if (activeVideo === index) {
@@ -135,23 +147,32 @@ const Gallery = () => {
         
         {activeTab === 'images' && (
           <div className="gallery-images">
-            {images.map((image) => (
-              <div 
-                key={image.id} 
-                className="image-item"
-                onClick={() => openLightbox(image, 'image')}
-              >
-                <img src={image.src} alt={image.title} className="gallery-image" />
-                <div className="image-overlay">
-                  <h4 className="image-title">{image.title}</h4>
-                  <button className="image-expand-btn">
-                    <FaExpand />
-                  </button>
+            {loadingImages ? (
+              <div className="loader">Loading Images...</div>
+            ) : (
+              images.map((image) => (
+                <div
+                  key={image.id}
+                  className="image-item"
+                  onClick={() => openLightbox(image, 'image')}
+                >
+                  <img src={image.src} alt={image.title} className="gallery-image" />
+                  <div className="image-overlay">
+                    <h4 className="image-title">{image.title}</h4>
+                    <button className="image-expand-btn">
+                      <FaExpand />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         )}
+        <div className="show-more-container">
+          <Link to="/gallery" className="btn btn-primary">
+            Show More
+          </Link>
+        </div>
       </div>
       
       {/* Lightbox */}
@@ -159,18 +180,18 @@ const Gallery = () => {
         <div className="lightbox" onClick={closeLightbox}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
             {lightboxContent.type === 'image' ? (
-              <img 
-                src={lightboxContent.content.src} 
-                alt={lightboxContent.content.title} 
-                className="lightbox-image" 
+              <img
+                src={lightboxContent.content.src}
+                alt={lightboxContent.content.title}
+                className="lightbox-image"
               />
             ) : (
-              <video 
+              <video
                 id="lightbox-video"
-                src={lightboxContent.content.src} 
-                controls 
-                autoPlay 
-                className="lightbox-video" 
+                src={lightboxContent.content.src}
+                controls
+                autoPlay
+                className="lightbox-video"
               />
             )}
             <h3 className="lightbox-title">{lightboxContent.content.title}</h3>
