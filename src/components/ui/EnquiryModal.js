@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/enquiry-modal.css';
 import { FaTimes } from 'react-icons/fa';
+import DirectConnect from './DirectConnect';
 
 const EnquiryModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -100,9 +101,11 @@ const EnquiryModal = ({ onClose }) => {
             {formStatus.message}
           </div>
         ) : (
-          <form className="enquiry-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="modal-name" className="form-label">Your Name *</label>
+          <>
+            <DirectConnect />
+            <form className="enquiry-form" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="modal-name" className="form-label">Your Name *</label>
               <input
                 type="text"
                 id="modal-name"
@@ -192,7 +195,8 @@ const EnquiryModal = ({ onClose }) => {
             <button type="submit" className="btn btn-primary modal-submit-btn">
               Send Enquiry
             </button>
-          </form>
+            </form>
+          </>
         )}
       </div>
     </div>

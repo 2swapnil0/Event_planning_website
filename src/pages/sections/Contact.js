@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import '../../styles/contact.css';
-import { 
-  FaMapMarkerAlt, 
-  FaPhoneAlt, 
-  FaEnvelope, 
-  FaClock, 
-  FaInstagram, 
-  FaWhatsapp, 
-  FaFacebookF 
+import {
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaClock,
+  FaInstagram,
+  FaWhatsapp,
+  FaFacebookF
 } from 'react-icons/fa';
+import DirectConnect from '../../components/ui/DirectConnect';
 
 const Contact = () => {
+  const [showDirectConnect, setShowDirectConnect] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,6 +34,7 @@ const Contact = () => {
       ...prevState,
       [name]: value
     }));
+    setShowDirectConnect(true);
   };
   
   const handleSubmit = (e) => {
@@ -150,6 +153,7 @@ const Contact = () => {
           
           <div className="contact-form-container">
             <h3 className="contact-form-title">Send Us a Message</h3>
+            {showDirectConnect && <DirectConnect />}
             <meta itemProp="potentialAction" itemScope itemType="https://schema.org/CommunicateAction" />
             
             {formStatus.submitted && (

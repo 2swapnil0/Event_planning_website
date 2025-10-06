@@ -1,0 +1,55 @@
+.direct-connect-prompt {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.direct-connect-prompt h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1.1rem;
+}
+
+.direct-connect-prompt p {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.direct-connect-cards {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.connect-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+  width: 120px;
+  height: 80px;
+  transition: transform 0.3s;
+}
+
+.connect-card:hover {
+  transform: translateY(-3px);
+}
+
+.connect-card svg {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.phone-card {
+  background-color: #007bff;
+}
+
+.whatsapp-card {
+  background-color: #25d366;
+}
