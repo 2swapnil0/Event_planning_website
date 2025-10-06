@@ -1,29 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { galleryImages } from '../data/gallery-images';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import Lightbox from '../components/ui/Lightbox';
 import '../styles/gallery-page.css';
 
+const IMAGES_PER_PAGE = 6;
+
 const GalleryPage = () => {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [displayedImages, setDisplayedImages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lightboxContent, setLightboxContent] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const folderId = '1Mq0PMh4lFO4986OntpeL3-Pn1fG0JWaS';
-        const webAppUrl = `https://script.google.com/macros/s/AKfycbxQOEuans93OpaClkx5hSE8gk4KdINO8ehvJD7182q3tKBVPZS3i3KDb9oQaIGOnoge/exec?folderId=${folderId}`;
-        const response = await axios.get(webAppUrl);
-        setImages(response.data);
-      } catch (error) {
-        console.error('Error fetching images:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchImages();
+    setDisplayedImages(galleryImages.slice(0, IMAGES_PER_PAGE));
   }, []);
+
+  const loadMoreImages = useCallback(() => {
+    const nextPage = currentPage + 1;
+    const newImages = galleryImages.slice(0, nextPage * IMAGES_PER_PAGE);
+    setDisplayedImages(newImages);
+    setCurrentPage(nextPage);
+  }, [currentPage]);
+
+  const handleScroll = useCallback(() => {
+    if (window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight - 200) {
+      return;
+    }
+    loadMoreImages();
+  }, [loadMoreImages]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  const openLightbox = (image) => {
+    setLightboxContent(image);
+  };
+
+  const closeLightbox = () => {
+    setLightboxContent(null);
+  };
 
   return (
     <div className="gallery-page">
@@ -31,28 +51,26 @@ const GalleryPage = () => {
       <main>
         <section className="gallery-section section">
           <div className="container">
-            <h2 className="section-title">Our Gallery</h2>
+            <div className="gallery-header">
+              <button onClick={() => navigate(-1)} className="back-button">← Back</button>
+              <h2 className="section-title">Our Gallery</h2>
+            </div>
             <p className="section-subtitle">
               A collection of our beautiful event decorations
             </p>
-            {loading ? (
-              <div className="loader">Loading...</div>
-            ) : (
-              <div className="gallery-grid">
-                {images.map((image) => (
-                  <div key={image.id} className="gallery-item">
-                    <img src={image.src} alt={image.title} className="gallery-image" />
-                    <div className="gallery-item-overlay">
-                      <h4 className="gallery-item-title">{image.title}</h4>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="gallery-grid">
+              {displayedImages.map((image) => (
+                <div key={image.id} className="polaroid-card" onClick={() => openLightbox(image)}>
+                  <img src={image.src} alt={image.title} className="polaroid-image" />
+                  <div className="polaroid-caption">{image.title}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       </main>
       <Footer />
+      {lightboxContent && <Lightbox content={lightboxContent} onClose={closeLightbox} />}
     </div>
   );
 };

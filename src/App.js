@@ -4,11 +4,13 @@ import HomePage from './pages/HomePage';
 import GalleryPage from './pages/GalleryPage';
 import BillPage from './pages/BillPage.tsx'; // Import the new component
 import StickyContactButtons from './components/ui/StickyContactButtons';
+import ScrollToTop from './components/utils/ScrollToTop';
 import './styles/globals.css';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <StickyContactButtons />
       <Routes>
         <Route path="/" element={<HomePage />} />

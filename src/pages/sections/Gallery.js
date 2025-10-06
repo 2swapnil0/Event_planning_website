@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { galleryImages } from '../../data/gallery-images';
 import '../../styles/gallery.css';
 import { FaPlay, FaPause, FaExpand } from 'react-icons/fa';
+import Lightbox from '../../components/ui/Lightbox';
 
 // Import videos
 import Video1 from '../../videos/video1.mp4';
@@ -20,11 +21,8 @@ import themeImg from '../../images/theme.jpg';
 
 const Gallery = () => {
   const [activeTab, setActiveTab] = useState('videos');
-  const [images, setImages] = useState([]);
-  const [loadingImages, setLoadingImages] = useState(true);
   const [activeVideo, setActiveVideo] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxContent, setLightboxContent] = useState(null);
   
   const videoRefs = useRef([]);
@@ -37,23 +35,7 @@ const Gallery = () => {
     { id: 5, src: Video5, thumbnail: themeImg, title: 'Theme Decoration' },
   ];
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const folderId = '1Mq0PMh4lFO4986OntpeL3-Pn1fG0JWaS';
-        const webAppUrl = `https://script.google.com/macros/s/AKfycbxQOEuans93OpaClkx5hSE8gk4KdINO8ehvJD7182q3tKBVPZS3i3KDb9oQaIGOnoge/exec?folderId=${folderId}`;
-        const response = await axios.get(webAppUrl);
-        // Take the first 6 images for the homepage preview
-        setImages(response.data.slice(0, 6));
-      } catch (error) {
-        console.error('Error fetching images:', error);
-      } finally {
-        setLoadingImages(false);
-      }
-    };
-
-    fetchImages();
-  }, []);
+  const homepageImages = galleryImages.slice(0, 6);
   
   const handleVideoPlay = (index) => {
     if (activeVideo === index) {
@@ -74,19 +56,12 @@ const Gallery = () => {
     }
   };
   
-  const openLightbox = (content, type) => {
-    setLightboxContent({ content, type });
-    setLightboxOpen(true);
-    document.body.style.overflow = 'hidden';
+  const openLightbox = (content) => {
+    setLightboxContent(content);
   };
   
   const closeLightbox = () => {
-    setLightboxOpen(false);
-    document.body.style.overflow = 'auto';
-    if (lightboxContent && lightboxContent.type === 'video') {
-      const video = document.getElementById('lightbox-video');
-      if (video) video.pause();
-    }
+    setLightboxContent(null);
   };
 
   return (
@@ -98,13 +73,13 @@ const Gallery = () => {
         </p>
         
         <div className="gallery-tabs">
-          <button 
+          <button
             className={`gallery-tab ${activeTab === 'videos' ? 'active' : ''}`}
             onClick={() => setActiveTab('videos')}
           >
             Videos
           </button>
-          <button 
+          <button
             className={`gallery-tab ${activeTab === 'images' ? 'active' : ''}`}
             onClick={() => setActiveTab('images')}
           >
@@ -125,15 +100,15 @@ const Gallery = () => {
                     onClick={() => handleVideoPlay(index)}
                   />
                   <div className="video-overlay">
-                    <button 
+                    <button
                       className="video-play-btn"
                       onClick={() => handleVideoPlay(index)}
                     >
                       {activeVideo === index && isPlaying ? <FaPause /> : <FaPlay />}
                     </button>
-                    <button 
+                    <button
                       className="video-expand-btn"
-                      onClick={() => openLightbox(video, 'video')}
+                      onClick={() => openLightbox(video)}
                     >
                       <FaExpand />
                     </button>
@@ -147,25 +122,21 @@ const Gallery = () => {
         
         {activeTab === 'images' && (
           <div className="gallery-images">
-            {loadingImages ? (
-              <div className="loader">Loading Images...</div>
-            ) : (
-              images.map((image) => (
-                <div
-                  key={image.id}
-                  className="image-item"
-                  onClick={() => openLightbox(image, 'image')}
-                >
-                  <img src={image.src} alt={image.title} className="gallery-image" />
-                  <div className="image-overlay">
-                    <h4 className="image-title">{image.title}</h4>
-                    <button className="image-expand-btn">
-                      <FaExpand />
-                    </button>
-                  </div>
+            {homepageImages.map((image) => (
+              <div
+                key={image.id}
+                className="image-item"
+                onClick={() => openLightbox(image)}
+              >
+                <img src={image.src} alt={image.title} className="gallery-image" />
+                <div className="image-overlay">
+                  <h4 className="image-title">{image.title}</h4>
+                  <button className="image-expand-btn">
+                    <FaExpand />
+                  </button>
                 </div>
-              ))
-            )}
+              </div>
+            ))}
           </div>
         )}
         <div className="show-more-container">
@@ -175,30 +146,7 @@ const Gallery = () => {
         </div>
       </div>
       
-      {/* Lightbox */}
-      {lightboxOpen && (
-        <div className="lightbox" onClick={closeLightbox}>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            {lightboxContent.type === 'image' ? (
-              <img
-                src={lightboxContent.content.src}
-                alt={lightboxContent.content.title}
-                className="lightbox-image"
-              />
-            ) : (
-              <video
-                id="lightbox-video"
-                src={lightboxContent.content.src}
-                controls
-                autoPlay
-                className="lightbox-video"
-              />
-            )}
-            <h3 className="lightbox-title">{lightboxContent.content.title}</h3>
-            <button className="lightbox-close" onClick={closeLightbox}>×</button>
-          </div>
-        </div>
-      )}
+      {lightboxContent && <Lightbox content={lightboxContent} onClose={closeLightbox} />}
     </section>
   );
 };
