@@ -263,6 +263,19 @@ const Contact = () => {
             </form>
           </div>
         </div>
+        
+        <div className="google-map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.3425726886894!2d73.0184766761179!3d19.0486699821503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c390301f1a5f%3A0x88fb35a516df79e!2sVidya%20Events%20%E2%80%93%20Balloon%20%26%20Birthday%20Party%20Decoration!5e1!3m2!1sen!2sin!4v1759714725858!5m2!1sen!2sin"
+            width="100%"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Vidya Events Location"
+          ></iframe>
+        </div>
       </div>
     </section>
   );
