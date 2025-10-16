@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import HomePage from './pages/HomePage';
 import GalleryPage from './pages/GalleryPage';
 import BillPage from './pages/BillPage.tsx'; // Import the new component
@@ -12,6 +13,7 @@ function App() {
     <Router>
       <ScrollToTop />
       <StickyContactButtons />
+      <Analytics />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/gallery" element={<GalleryPage />} />
