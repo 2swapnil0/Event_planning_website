@@ -42,7 +42,7 @@ const Footer = () => {
                 <a href="https://www.whatsapp.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
                   <FaWhatsapp />
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" className="footer-social-link">
+                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
                   <FaFacebookF />
                 </a>
               </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../../styles/services.css';
 
 const ServiceCard = ({ service, onEnquireClick }) => {
-  const { id, title, description, icon, image } = service;
+  const { title, description, icon, image } = service;
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleCardFlip = () => {
