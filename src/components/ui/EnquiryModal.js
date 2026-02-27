@@ -20,6 +20,8 @@ const EnquiryModal = ({ onClose }) => {
     message: ''
   });
   
+  const [loading, setLoading] = useState(false);
+
   // Prevent body scrolling when modal is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -38,6 +40,7 @@ const EnquiryModal = ({ onClose }) => {
   
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     
     // EmailJS Configuration
     const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
@@ -85,6 +88,9 @@ const EnquiryModal = ({ onClose }) => {
           success: false,
           message: 'There was an error sending your enquiry. Please check your connection and try again.'
         });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -198,8 +204,9 @@ const EnquiryModal = ({ onClose }) => {
               ></textarea>
             </div>
             
-            <button type="submit" className="btn btn-primary modal-submit-btn">
-              Send Enquiry
+            <button type="submit" className="btn btn-primary modal-submit-btn" disabled={loading}>
+              {loading ? <span className="spinner"></span> : null}
+              {loading ? 'Sending...' : 'Send Enquiry'}
             </button>
             </form>
           </>
